@@ -1,0 +1,211 @@
+/* ------------------------------------------------------------------ */
+/* Hero — landing page redesign                                       */
+/* ------------------------------------------------------------------ */
+
+.hero {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    text-align: center;
+    gap: 3rem;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.1rem;
+}
+
+.hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+}
+
+.hero-title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+}
+
+.hero-title-accent {
+    color: var(--accent);
+}
+
+.hero-subtitle {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 520px;
+}
+
+.hero-actions {
+    justify-content: center;
+}
+
+.hero-actions .btn-primary {
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+}
+
+/* ------------------------------------------------------------------ */
+/* Mock card (hero visual)                                             */
+/* ------------------------------------------------------------------ */
+
+.hero-visual { width: 100%; }
+
+.mock-card { max-width: 640px; }
+
+.mock-dots {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.mock-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.mock-dot-red { background: #e88a83; }
+.mock-dot-yellow { background: var(--accent-2); }
+.mock-dot-green { background: var(--accent); }
+
+.mock-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mock-stat {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.mock-stat-label {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+}
+
+.mock-stat-value {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--ink);
+}
+
+.mock-stat-delta { font-size: 0.8rem; font-weight: 500; }
+.mock-stat-delta-up { color: var(--danger); }
+.mock-stat-delta-down { color: var(--accent); }
+.mock-stat-delta-muted { color: var(--ink-faint); }
+
+.mock-progress {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.mock-progress-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mock-progress-label {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-align: left;
+}
+
+.mock-progress-track {
+    height: 8px;
+    background: var(--border-soft);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.mock-progress-bar {
+    height: 100%;
+    border-radius: 999px;
+}
+
+.mock-progress-bar-food { background: var(--accent-2); }
+.mock-progress-bar-travel { background: #3b82f6; }
+.mock-progress-bar-bills { background: #8b6fd6; }
+
+@media (max-width: 640px) {
+    .mock-stats { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------------------------------ */
+/* "See how it works" modal                                            */
+/* ------------------------------------------------------------------ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 15, 15, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1000;
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal {
+    position: relative;
+    background: var(--paper-card);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 720px;
+    padding: 0.75rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+    position: absolute;
+    top: -2.5rem;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: var(--paper);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modal-video-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.modal-video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
