@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from flask import Flask, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from database.db import create_user, get_user_by_email, init_db, seed_db
+from database.db import create_user, get_user_by_email, get_user_by_id, init_db, seed_db
+from database.queries import get_category_breakdown, get_recent_transactions, get_summary_stats
 
 app = Flask(__name__)
 
@@ -98,63 +101,27 @@ def logout():
     return redirect(url_for("login"))
 
 
+def format_member_since(created_at):
+    dt = datetime.strptime(created_at, "%Y-%m-%d %H:%M:%S")
+    return dt.strftime("%B %Y")
+
+
 @app.route("/profile")
 def profile():
     if not session.get("user_id"):
         return redirect(url_for("login"))
 
+    user_id = session["user_id"]
+    user_row = get_user_by_id(user_id)
     user = {
-        "name": session.get("user_name", "Demo User"),
-        "email": "demo@spendly.com",
-        "member_since": "January 2025",
+        "name": user_row["name"],
+        "email": user_row["email"],
+        "member_since": format_member_since(user_row["created_at"]),
     }
 
-    stats = {
-        "total_spent": 4758.50,
-        "transaction_count": 8,
-        "top_category": "Shopping",
-    }
-
-    transactions = [
-        {
-            "date": "2026-09-21",
-            "description": "Lunch with colleagues",
-            "category": "Food",
-            "amount": 120.00,
-        },
-        {
-            "date": "2026-09-14",
-            "description": "New shoes",
-            "category": "Shopping",
-            "amount": 1750.00,
-        },
-        {
-            "date": "2026-09-10",
-            "description": "Movie tickets",
-            "category": "Entertainment",
-            "amount": 599.00,
-        },
-        {
-            "date": "2026-09-07",
-            "description": "Pharmacy purchase",
-            "category": "Health",
-            "amount": 450.00,
-        },
-        {
-            "date": "2026-09-05",
-            "description": "Auto rickshaw fare",
-            "category": "Transport",
-            "amount": 89.00,
-        },
-    ]
-
-    categories = [
-        {"name": "Shopping", "total": 1750.00, "percent": 37},
-        {"name": "Bills", "total": 1200.50, "percent": 25},
-        {"name": "Entertainment", "total": 599.00, "percent": 13},
-        {"name": "Health", "total": 450.00, "percent": 9},
-        {"name": "Food", "total": 370.00, "percent": 8},
-    ]
+    stats = get_summary_stats(user_id)
+    transactions = get_recent_transactions(user_id)
+    categories = get_category_breakdown(user_id)
 
     return render_template(
         "profile.html",
