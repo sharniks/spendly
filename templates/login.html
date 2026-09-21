@@ -17,6 +17,10 @@
             <div class="auth-error">{{ error }}</div>
             {% endif %}
 
+            {% if success %}
+            <div class="auth-success">{{ success }}</div>
+            {% endif %}
+
             <form method="POST" action="/login">
                 <div class="form-group">
                     <label for="email">Email address</label>
