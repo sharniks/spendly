@@ -1,0 +1,225 @@
+/* ------------------------------------------------------------------ */
+/* Badge color tokens                                                  */
+/* ------------------------------------------------------------------ */
+
+:root {
+    --badge-food: #6a8f5c;
+    --badge-food-bg: #eaf1e6;
+    --badge-bills: #c17f24;
+    --badge-bills-bg: #fdf3e3;
+    --badge-transport: #5b7fa6;
+    --badge-transport-bg: #e8eef4;
+    --badge-health: #c0392b;
+    --badge-health-bg: #fdecea;
+    --badge-entertainment: #8b5e83;
+    --badge-entertainment-bg: #f3e8f1;
+    --badge-shopping: #1a472a;
+    --badge-shopping-bg: #e8f0eb;
+    --badge-other: #6b6b6b;
+    --badge-other-bg: #eeebe4;
+}
+
+/* ------------------------------------------------------------------ */
+/* Profile layout                                                      */
+/* ------------------------------------------------------------------ */
+
+.profile-section {
+    padding: 3rem 2rem 4rem;
+}
+
+.profile-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Info card                                                           */
+/* ------------------------------------------------------------------ */
+
+.profile-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.profile-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.profile-email,
+.profile-since {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Stats row                                                           */
+/* ------------------------------------------------------------------ */
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.stat-tile {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section blocks                                                      */
+/* ------------------------------------------------------------------ */
+
+.profile-block {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+}
+
+.profile-block-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Transaction table                                                   */
+/* ------------------------------------------------------------------ */
+
+.tx-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tx-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.tx-table td {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--ink-soft);
+}
+
+.tx-table tbody tr:hover {
+    background: var(--paper-warm);
+}
+
+.tx-amount-col {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Category badges                                                     */
+/* ------------------------------------------------------------------ */
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge-food { background: var(--badge-food-bg); color: var(--badge-food); }
+.badge-bills { background: var(--badge-bills-bg); color: var(--badge-bills); }
+.badge-transport { background: var(--badge-transport-bg); color: var(--badge-transport); }
+.badge-health { background: var(--badge-health-bg); color: var(--badge-health); }
+.badge-entertainment { background: var(--badge-entertainment-bg); color: var(--badge-entertainment); }
+.badge-shopping { background: var(--badge-shopping-bg); color: var(--badge-shopping); }
+.badge-other { background: var(--badge-other-bg); color: var(--badge-other); }
+
+/* ------------------------------------------------------------------ */
+/* Category breakdown bars (extends .mock-bar-row from style.css)      */
+/* ------------------------------------------------------------------ */
+
+.badge-food-bar { background: var(--badge-food); }
+.badge-bills-bar { background: var(--badge-bills); }
+.badge-transport-bar { background: var(--badge-transport); }
+.badge-health-bar { background: var(--badge-health); }
+.badge-entertainment-bar { background: var(--badge-entertainment); }
+.badge-shopping-bar { background: var(--badge-shopping); }
+.badge-other-bar { background: var(--badge-other); }
+
+.width-8 { width: 8%; }
+.width-9 { width: 9%; }
+.width-13 { width: 13%; }
+.width-25 { width: 25%; }
+.width-37 { width: 37%; }
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                          */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 700px) {
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .tx-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
