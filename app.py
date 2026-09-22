@@ -1,11 +1,19 @@
 import calendar
+import math
 import re
 from datetime import date, datetime
 
 from flask import Flask, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from database.db import create_user, get_user_by_email, get_user_by_id, init_db, seed_db
+from database.db import (
+    create_expense,
+    create_user,
+    get_user_by_email,
+    get_user_by_id,
+    init_db,
+    seed_db,
+)
 from database.queries import get_category_breakdown, get_recent_transactions, get_summary_stats
 
 app = Flask(__name__)
@@ -213,9 +221,66 @@ def profile():
     )
 
 
-@app.route("/expenses/add")
+EXPENSE_CATEGORIES = [
+    "Food",
+    "Bills",
+    "Transport",
+    "Health",
+    "Entertainment",
+    "Shopping",
+    "Other",
+]
+
+MAX_EXPENSE_AMOUNT = 10_000_000
+MAX_DESCRIPTION_LENGTH = 255
+
+
+@app.route("/expenses/add", methods=["GET", "POST"])
 def add_expense():
-    return "Add expense — coming in Step 7"
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    today_iso = date.today().isoformat()
+
+    if request.method == "GET":
+        return render_template("add_expense.html", categories=EXPENSE_CATEGORIES, today=today_iso)
+
+    amount_raw = request.form.get("amount", "").strip()
+    category = request.form.get("category", "").strip()
+    date_raw = request.form.get("date", "").strip()
+    description = request.form.get("description", "").strip()[:MAX_DESCRIPTION_LENGTH] or None
+
+    def render_error(message):
+        return render_template(
+            "add_expense.html",
+            categories=EXPENSE_CATEGORIES,
+            today=today_iso,
+            error=message,
+            amount=amount_raw,
+            category=category,
+            date=date_raw,
+            description=description or "",
+        )
+
+    try:
+        amount = float(amount_raw)
+    except ValueError:
+        return render_error("Enter a valid amount.")
+
+    if not math.isfinite(amount) or amount <= 0 or amount > MAX_EXPENSE_AMOUNT:
+        return render_error(f"Amount must be between 0 and {MAX_EXPENSE_AMOUNT:,}.")
+
+    if category not in EXPENSE_CATEGORIES:
+        return render_error("Select a valid category.")
+
+    try:
+        expense_date = parse_iso_date(date_raw) if date_raw else date.today()
+    except ValueError:
+        return render_error("Enter a valid date.")
+
+    create_expense(session["user_id"], amount, category, expense_date.isoformat(), description)
+
+    return redirect(url_for("profile"))
 
 
 @app.route("/expenses/<int:id>/edit")
