@@ -129,6 +129,17 @@
     margin-bottom: 1.25rem;
 }
 
+.profile-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.profile-block-header .profile-block-title {
+    margin-bottom: 0;
+}
+
 /* ------------------------------------------------------------------ */
 /* Transaction table                                                   */
 /* ------------------------------------------------------------------ */
