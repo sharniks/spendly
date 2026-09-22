@@ -63,6 +63,9 @@ spendly/
 - When asked to plan, delegate codebase research
   to a subagent before presenting the plan
 - always use a builtin plan subagent in plan mode
+- After implementing any feature, invoke the `spendly-test-writer`
+  subagent with the feature's spec (`.claude/specs/NN-*.md`) to generate
+  pytest tests from the spec, not the implementation
 
 ---
 

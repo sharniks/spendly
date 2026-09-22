@@ -20,6 +20,32 @@
             </div>
         </div>
 
+        <div class="profile-filter">
+            <form class="filter-form" method="get" action="{{ url_for('profile') }}">
+                <div class="filter-field">
+                    <label for="start_date">From</label>
+                    <input class="form-input" type="date" id="start_date" name="start_date" value="{{ start_date }}">
+                </div>
+                <div class="filter-field">
+                    <label for="end_date">To</label>
+                    <input class="form-input" type="date" id="end_date" name="end_date" value="{{ end_date }}">
+                </div>
+                <button type="submit" class="btn-primary filter-apply">Apply</button>
+            </form>
+            <div class="filter-presets">
+                <a href="{{ url_for('profile', start_date=presets.this_month[0], end_date=presets.this_month[1]) }}"
+                   class="preset-pill{% if active_preset == 'this_month' %} is-active{% endif %}">This month</a>
+                <a href="{{ url_for('profile', start_date=presets.last_3_months[0], end_date=presets.last_3_months[1]) }}"
+                   class="preset-pill{% if active_preset == 'last_3_months' %} is-active{% endif %}">Last 3 months</a>
+                <a href="{{ url_for('profile') }}"
+                   class="preset-pill{% if active_preset == 'all' %} is-active{% endif %}">All time</a>
+            </div>
+            <p class="filter-label">{{ range_label }}</p>
+            {% if filter_error %}
+            <p class="filter-error" role="alert">{{ filter_error }}</p>
+            {% endif %}
+        </div>
+
         <div class="profile-stats">
             <div class="stat-tile">
                 <span class="stat-label">Total spent</span>
@@ -54,6 +80,10 @@
                         <td><span class="badge badge-{{ tx.category|lower }}">{{ tx.category }}</span></td>
                         <td class="tx-amount-col">₹{{ "%.2f"|format(tx.amount) }}</td>
                     </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="tx-empty">No expenses in this period.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -61,6 +91,7 @@
 
         <div class="profile-block">
             <h2 class="profile-block-title">Category breakdown</h2>
+            {% if categories %}
             <div class="mock-bars">
                 {% for cat in categories %}
                 <div class="mock-bar-row">
@@ -72,6 +103,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+            <p class="profile-empty">No expenses in this period.</p>
+            {% endif %}
         </div>
 
     </div>
