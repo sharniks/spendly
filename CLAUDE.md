@@ -97,16 +97,16 @@ pytest -s
 
 ## Implemented vs stub routes
 
-| Route                       | Status                                |
-| --------------------------- | ------------------------------------- |
-| `GET /`                     | Implemented — renders `landing.html`  |
-| `GET /register`             | Implemented — renders `register.html` |
-| `GET /login`                | Implemented — renders `login.html`    |
-| `GET /logout`               | Stub — Step 3                         |
-| `GET /profile`              | Stub — Step 4                         |
-| `GET /expenses/add`         | Stub — Step 7                         |
-| `GET /expenses/<id>/edit`   | Stub — Step 8                         |
-| `GET /expenses/<id>/delete` | Stub — Step 9                         |
+| Route                       | Status                                                                                  |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| `GET /`                     | Implemented — renders `landing.html`                                                    |
+| `GET/POST /register`        | Implemented — Step 2                                                                    |
+| `GET/POST /login`           | Implemented — Step 3                                                                    |
+| `GET /logout`               | Implemented — Step 3, clears session                                                    |
+| `GET /profile`              | Implemented — Steps 4–6; optional `?start_date=&end_date=` (YYYY-MM-DD) date filter      |
+| `GET /expenses/add`         | Stub — Step 7                                                                           |
+| `GET /expenses/<id>/edit`   | Stub — Step 8                                                                           |
+| `GET /expenses/<id>/delete` | Stub — Step 9                                                                           |
 
 **Do not implement a stub route unless the active task explicitly targets that step.**
 
