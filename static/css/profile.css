@@ -112,6 +112,22 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* Transactions + category breakdown layout                            */
+/* ------------------------------------------------------------------ */
+
+.profile-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.profile-block-side {
+    position: sticky;
+    top: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ */
 /* Section blocks                                                      */
 /* ------------------------------------------------------------------ */
 
@@ -146,15 +162,36 @@
 
 .tx-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     font-size: 0.9rem;
 }
 
 .tx-description-col {
-    width: 100%;
+    width: auto;
 }
 
 .tx-date-col {
+    width: 110px;
+    white-space: nowrap;
+}
+
+.tx-category-col {
+    width: 130px;
+}
+
+.tx-amount-col {
+    width: 110px;
+}
+
+.tx-actions-col {
+    width: 130px;
+}
+
+.tx-description-col,
+.tx-table td.tx-description-col {
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
@@ -185,7 +222,7 @@
 }
 
 .tx-amount-col {
-    text-align: right;
+    text-align: left;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
@@ -419,6 +456,16 @@
 /* Responsive                                                          */
 /* ------------------------------------------------------------------ */
 
+@media (max-width: 960px) {
+    .profile-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-block-side {
+        position: static;
+    }
+}
+
 @media (max-width: 700px) {
     .profile-stats {
         grid-template-columns: 1fr;
@@ -430,8 +477,16 @@
     }
 
     .tx-table {
+        table-layout: auto;
         display: block;
         overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .tx-description-col,
+    .tx-table td.tx-description-col {
+        overflow: visible;
+        text-overflow: clip;
         white-space: nowrap;
     }
 

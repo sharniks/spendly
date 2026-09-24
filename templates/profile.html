@@ -61,59 +61,61 @@
             </div>
         </div>
 
-        <div class="profile-block">
-            <div class="profile-block-header">
-                <h2 class="profile-block-title">Recent transactions</h2>
-                <a href="{{ url_for('add_expense') }}" class="btn-primary">Add expense</a>
-            </div>
-            <table class="tx-table">
-                <thead>
-                    <tr>
-                        <th class="tx-date-col">Date</th>
-                        <th class="tx-description-col">Description</th>
-                        <th class="tx-category-col">Category</th>
-                        <th class="tx-amount-col">Amount</th>
-                        <th class="tx-actions-col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tx in transactions %}
-                    <tr>
-                        <td class="tx-date-col">{{ tx.date }}</td>
-                        <td class="tx-description-col">{{ tx.description }}</td>
-                        <td class="tx-category-col"><span class="badge badge-{{ tx.category|lower }}">{{ tx.category }}</span></td>
-                        <td class="tx-amount-col">₹{{ "%.2f"|format(tx.amount) }}</td>
-                        <td class="tx-actions-col">
-                            <a href="{{ url_for('edit_expense', id=tx.id) }}" class="btn-ghost btn-sm">Edit</a>
-                            <a href="{{ url_for('delete_expense', id=tx.id) }}" class="btn-ghost btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="5" class="tx-empty">No expenses in this period.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="profile-block">
-            <h2 class="profile-block-title">Category breakdown</h2>
-            {% if categories %}
-            <div class="mock-bars">
-                {% for cat in categories %}
-                <div class="mock-bar-row">
-                    <span class="mock-cat">{{ cat.name }}</span>
-                    <div class="mock-bar-track">
-                        <div class="mock-bar badge-{{ cat.name|lower }}-bar width-{{ cat.percent }}"></div>
-                    </div>
-                    <span class="mock-amt">₹{{ "%.2f"|format(cat.total) }}</span>
+        <div class="profile-columns">
+            <div class="profile-block profile-block-main">
+                <div class="profile-block-header">
+                    <h2 class="profile-block-title">Recent transactions</h2>
+                    <a href="{{ url_for('add_expense') }}" class="btn-primary">Add expense</a>
                 </div>
-                {% endfor %}
+                <table class="tx-table">
+                    <thead>
+                        <tr>
+                            <th class="tx-date-col">Date</th>
+                            <th class="tx-description-col">Description</th>
+                            <th class="tx-category-col">Category</th>
+                            <th class="tx-amount-col">Amount</th>
+                            <th class="tx-actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tx in transactions %}
+                        <tr>
+                            <td class="tx-date-col">{{ tx.date }}</td>
+                            <td class="tx-description-col">{{ tx.description }}</td>
+                            <td class="tx-category-col"><span class="badge badge-{{ tx.category|lower }}">{{ tx.category }}</span></td>
+                            <td class="tx-amount-col">₹{{ "%.2f"|format(tx.amount) }}</td>
+                            <td class="tx-actions-col">
+                                <a href="{{ url_for('edit_expense', id=tx.id) }}" class="btn-ghost btn-sm">Edit</a>
+                                <a href="{{ url_for('delete_expense', id=tx.id) }}" class="btn-ghost btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="tx-empty">No expenses in this period.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            {% else %}
-            <p class="profile-empty">No expenses in this period.</p>
-            {% endif %}
+
+            <div class="profile-block profile-block-side">
+                <h2 class="profile-block-title">Category breakdown</h2>
+                {% if categories %}
+                <div class="mock-bars">
+                    {% for cat in categories %}
+                    <div class="mock-bar-row">
+                        <span class="mock-cat">{{ cat.name }}</span>
+                        <div class="mock-bar-track">
+                            <div class="mock-bar badge-{{ cat.name|lower }}-bar width-{{ cat.percent }}"></div>
+                        </div>
+                        <span class="mock-amt">₹{{ "%.2f"|format(cat.total) }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="profile-empty">No expenses in this period.</p>
+                {% endif %}
+            </div>
         </div>
 
     </div>

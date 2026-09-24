@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
     <title>{% block title %}Spendly{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +21,7 @@
             </a>
             <div class="nav-links">
                 {% if session.user_id %}
+                <a href="{{ url_for('profile') }}" class="nav-cta">Dashboard</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                 <a href="{{ url_for('login') }}">Sign in</a>
