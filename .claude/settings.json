@@ -6,7 +6,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python -c \"import sys,json; d=json.load(sys.stdin); f=d.get('tool_input',{}).get('file_path') or d.get('tool_response',{}).get('filePath') or ''; print(f)\" | { read -r f; f=\"${f%$'\\r'}\"; case \"$f\" in *.py) ./venv/Scripts/ruff.exe check --fix \"$f\" 2>/dev/null; ./venv/Scripts/ruff.exe format \"$f\" 2>/dev/null;; esac; } || true"
+            "command": "python3 -c \"\nimport sys, json, subprocess\ndata = json.load(sys.stdin)\nfile = data.get('tool_input', {}).get('file_path', '')\nif file.endswith('.py'):\n    subprocess.run(['python3', '-m', 'black', '--quiet', file])\n\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"\nimport sys, json\ndata = json.load(sys.stdin)\ncmd = data.get('tool_input', {}).get('command', '')\nprotected = ['spendly.db', '.env', 'migrations/']\ndangerous = ['rm ', 'rm -', 'unlink ', 'truncate ']\nfor d in dangerous:\n    if d in cmd:\n        for p in protected:\n            if p in cmd:\n                print(f'BLOCKED: Cannot run destructive command on protected file: {p}', file=__import__(\\\"sys\\\").stderr)\n                raise SystemExit(2)\n\""
           }
         ]
       }
