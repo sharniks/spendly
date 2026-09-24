@@ -3,16 +3,18 @@ import math
 import re
 from datetime import date, datetime
 
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, abort, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from database.db import (
     create_expense,
     create_user,
+    get_expense_by_id,
     get_user_by_email,
     get_user_by_id,
     init_db,
     seed_db,
+    update_expense,
 )
 from database.queries import get_category_breakdown, get_recent_transactions, get_summary_stats
 
@@ -283,9 +285,58 @@ def add_expense():
     return redirect(url_for("profile"))
 
 
-@app.route("/expenses/<int:id>/edit")
+@app.route("/expenses/<int:id>/edit", methods=["GET", "POST"])
 def edit_expense(id):
-    return "Edit expense — coming in Step 8"
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    expense = get_expense_by_id(id)
+    if expense is None or expense["user_id"] != session["user_id"]:
+        abort(404)
+
+    if request.method == "GET":
+        return render_template(
+            "edit_expense.html",
+            categories=EXPENSE_CATEGORIES,
+            expense=expense,
+        )
+
+    amount_raw = request.form.get("amount", "").strip()
+    category = request.form.get("category", "").strip()
+    date_raw = request.form.get("date", "").strip()
+    description = request.form.get("description", "").strip()[:MAX_DESCRIPTION_LENGTH] or None
+
+    def render_error(message):
+        return render_template(
+            "edit_expense.html",
+            categories=EXPENSE_CATEGORIES,
+            expense=expense,
+            error=message,
+            amount=amount_raw,
+            category=category,
+            date=date_raw,
+            description=description or "",
+        )
+
+    try:
+        amount = float(amount_raw)
+    except ValueError:
+        return render_error("Enter a valid amount.")
+
+    if not math.isfinite(amount) or amount <= 0 or amount > MAX_EXPENSE_AMOUNT:
+        return render_error(f"Amount must be between 0 and {MAX_EXPENSE_AMOUNT:,}.")
+
+    if category not in EXPENSE_CATEGORIES:
+        return render_error("Select a valid category.")
+
+    try:
+        expense_date = parse_iso_date(date_raw) if date_raw else date.today()
+    except ValueError:
+        return render_error("Enter a valid date.")
+
+    update_expense(id, amount, category, expense_date.isoformat(), description)
+
+    return redirect(url_for("profile"))
 
 
 @app.route("/expenses/<int:id>/delete")
