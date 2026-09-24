@@ -104,9 +104,9 @@ pytest -s
 | `GET/POST /login`           | Implemented — Step 3                                                                    |
 | `GET /logout`               | Implemented — Step 3, clears session                                                    |
 | `GET /profile`              | Implemented — Steps 4–6; optional `?start_date=&end_date=` (YYYY-MM-DD) date filter      |
-| `GET /expenses/add`         | Stub — Step 7                                                                           |
-| `GET /expenses/<id>/edit`   | Stub — Step 8                                                                           |
-| `GET /expenses/<id>/delete` | Stub — Step 9                                                                           |
+| `GET/POST /expenses/add`         | Implemented — Step 7                                                               |
+| `GET/POST /expenses/<id>/edit`   | Implemented — Step 8                                                               |
+| `GET/POST /expenses/<id>/delete` | Implemented — Step 9                                                               |
 
 **Do not implement a stub route unless the active task explicitly targets that step.**
 
