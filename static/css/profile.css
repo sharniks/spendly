@@ -150,6 +150,14 @@
     font-size: 0.9rem;
 }
 
+.tx-description-col {
+    width: 100%;
+}
+
+.tx-date-col {
+    white-space: nowrap;
+}
+
 .tx-table th {
     text-align: left;
     font-size: 0.75rem;
@@ -157,14 +165,19 @@
     color: var(--ink-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding-bottom: 0.75rem;
+    padding: 0 1rem 0.75rem 0;
     border-bottom: 1px solid var(--border);
 }
 
 .tx-table td {
-    padding: 0.75rem 0;
+    padding: 0.75rem 1rem 0.75rem 0;
     border-bottom: 1px solid var(--border-soft);
     color: var(--ink-soft);
+}
+
+.tx-table th:last-child,
+.tx-table td:last-child {
+    padding-right: 0;
 }
 
 .tx-table tbody tr:hover {
@@ -174,6 +187,17 @@
 .tx-amount-col {
     text-align: right;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tx-actions-col {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.85rem;
+    font-size: 0.8rem;
 }
 
 /* ------------------------------------------------------------------ */
