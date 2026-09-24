@@ -1,5 +1,6 @@
 import calendar
 import math
+import os
 import re
 from datetime import date, datetime
 
@@ -21,9 +22,7 @@ from database.queries import get_category_breakdown, get_recent_transactions, ge
 
 app = Flask(__name__)
 
-# Dev-only secret key — replace with a value loaded from an environment
-# variable before deploying to production.
-app.secret_key = "dev-secret-key-change-before-production"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-before-production")
 
 with app.app_context():
     init_db()
