@@ -40,6 +40,8 @@
                 <a href="{{ url_for('profile') }}"
                    class="preset-pill{% if active_preset == 'all' %} is-active{% endif %}">All time</a>
             </div>
+            <a href="{{ url_for('export_expenses', start_date=start_date, end_date=end_date) }}"
+               class="export-link">Export CSV</a>
             <p class="filter-label">{{ range_label }}</p>
             {% if filter_error %}
             <p class="filter-error" role="alert">{{ filter_error }}</p>
