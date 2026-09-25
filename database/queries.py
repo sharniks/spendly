@@ -27,6 +27,20 @@ def get_recent_transactions(user_id, limit=10, start_date=None, end_date=None):
         conn.close()
 
 
+def get_all_transactions(user_id, start_date=None, end_date=None):
+    date_sql, date_params = _date_filter(start_date, end_date)
+    conn = get_db()
+    try:
+        rows = conn.execute(
+            "SELECT id, date, description, category, amount FROM expenses "
+            "WHERE user_id = ?" + date_sql + " ORDER BY date ASC",
+            (user_id, *date_params),
+        ).fetchall()
+        return [dict(row) for row in rows]
+    finally:
+        conn.close()
+
+
 def get_summary_stats(user_id, start_date=None, end_date=None):
     date_sql, date_params = _date_filter(start_date, end_date)
     conn = get_db()

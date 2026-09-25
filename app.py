@@ -1,10 +1,12 @@
 import calendar
+import csv
+import io
 import math
 import os
 import re
 from datetime import date, datetime
 
-from flask import Flask, abort, redirect, render_template, request, session, url_for
+from flask import Flask, Response, abort, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from database.db import (
@@ -18,7 +20,12 @@ from database.db import (
     seed_db,
     update_expense,
 )
-from database.queries import get_category_breakdown, get_recent_transactions, get_summary_stats
+from database.queries import (
+    get_all_transactions,
+    get_category_breakdown,
+    get_recent_transactions,
+    get_summary_stats,
+)
 
 app = Flask(__name__)
 
@@ -354,6 +361,32 @@ def delete_expense(id):
     delete_expense_row(id)
 
     return redirect(url_for("profile"))
+
+
+@app.route("/expenses/export")
+def export_expenses():
+    if not session.get("user_id"):
+        return redirect(url_for("login"))
+
+    start, end, _filter_error = parse_date_range(
+        request.args.get("start_date"), request.args.get("end_date")
+    )
+    start_iso = start.isoformat() if start else None
+    end_iso = end.isoformat() if end else None
+
+    transactions = get_all_transactions(session["user_id"], start_iso, end_iso)
+
+    buffer = io.StringIO()
+    writer = csv.writer(buffer)
+    writer.writerow(["Date", "Category", "Description", "Amount"])
+    for tx in transactions:
+        writer.writerow([tx["date"], tx["category"], tx["description"] or "", tx["amount"]])
+
+    return Response(
+        buffer.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename=expenses.csv"},
+    )
 
 
 if __name__ == "__main__":

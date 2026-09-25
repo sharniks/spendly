@@ -431,6 +431,21 @@
     color: var(--accent);
 }
 
+.export-link {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.export-link:hover {
+    background: var(--accent-light);
+}
+
 .filter-label {
     font-size: 0.85rem;
     color: var(--ink-muted);
