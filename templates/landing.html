@@ -113,11 +113,11 @@
     </div>
 </section>
 
-<div class="modal-overlay" id="how-it-works-modal" hidden>
+<div class="modal-overlay" id="how-it-works-modal" hidden style="display: none;">
     <div class="modal" role="dialog" aria-modal="true" aria-label="See how Spendly works">
         <button type="button" class="modal-close" id="how-it-works-close" aria-label="Close">&times;</button>
         <div class="modal-video-wrap">
-            <iframe id="how-it-works-iframe" src="" title="How Spendly works" frameborder="0"
+            <iframe id="how-it-works-iframe" src="about:blank" title="How Spendly works" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
         </div>
@@ -139,22 +139,26 @@
         function openModal() {
             iframe.src = YOUTUBE_EMBED_URL + "?autoplay=1";
             modal.hidden = false;
+            modal.style.display = "flex";
         }
 
         function closeModal() {
             modal.hidden = true;
-            iframe.src = "";
+            modal.style.display = "none";
+            iframe.src = "about:blank";
         }
 
-        openBtn.addEventListener("click", openModal);
-        closeBtn.addEventListener("click", closeModal);
+        if (openBtn) openBtn.addEventListener("click", openModal);
+        if (closeBtn) closeBtn.addEventListener("click", closeModal);
 
-        modal.addEventListener("click", function (event) {
-            if (event.target === modal) closeModal();
-        });
+        if (modal) {
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) closeModal();
+            });
+        }
 
         document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape" && !modal.hidden) closeModal();
+            if (event.key === "Escape" && modal && !modal.hidden) closeModal();
         });
     })();
 </script>
